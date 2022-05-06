@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pylab as plt
 
 
-def convert_radians_to_degrees(angle_in_radians):
+def convert_degrees_to_radians(angle_in_degrees):
     """
-    Returns a given angle_in_radians to degrees.
+    Returns a given angle_in_degrees to radians.
     """
-    angle = angle_in_radians * 180 / np.pi
+    angle = angle_in_degrees * np.pi / 180
     return angle
 
 
@@ -19,7 +19,7 @@ def time_at_maximum_height(initial_velocity, angle):
     It takes the initial_velocity (in ms(^-2)) and angle with the horizon (in degrees). 
     """
     g = 9.8
-    vy = initial_velocity * np.sin(np.deg2rad(angle))
+    vy = initial_velocity * np.sin(angle)
     time_of_maximum_height = vy / g
     print(time_of_maximum_height, 's')
     return
@@ -34,7 +34,7 @@ def time_of_flight(initial_velocity, angle):
     It takes the initial_velocity (in ms(^-2)) and angle with the horizon (in degrees). 
     """
     g = 9.8
-    time_of_flight = 2 * (initial_velocity * np.sin(np.deg2rad(angle)) / g)
+    time_of_flight = 2 * (initial_velocity * np.sin(angle) / g)
     print(time_of_flight, "s")
     return 
 
@@ -47,7 +47,9 @@ def maximum_height(initial_velocity, angle):
     It takes the initial_velocity (in ms(^-2)) and angle with the horizon (in degrees). 
     """
     g = 9.8
-    maximum_height = (initial_velocity * np.sin(np.deg2rad(angle)) ** 2) / 2 * g
+    vy = initial_velocity * np.sin(angle)
+    t = vy / g
+    maximum_height = vy *t - (g * (t ** 2)) / 2
     print(maximum_height, "m")
     return 
 
@@ -60,7 +62,7 @@ def horizontal_range(initial_velocity, angle):
     It takes the initial_velocity (in ms(^-2)) and angle with the horizon (in degrees). 
     """
     g = 9.8
-    horizontal_range = ((initial_velocity ** 2) * np.sin(np.deg2rad(2*angle)) / g)
+    horizontal_range = ((initial_velocity ** 2) * np.sin(2*angle) / g)
     print(horizontal_range, "m")
     return
 
@@ -73,8 +75,8 @@ def plot_projectile_motion(initial_velocity,angle):
 
     t = np.linspace(0, 50, num=10000) 
     for i in t: 
-        x_temp = (initial_velocity*i)*np.cos(np.deg2rad(angle))
-        y_temp = ((initial_velocity*i)*np.sin(np.deg2rad(angle)))-((0.5*g)*(i**2))
+        x_temp = (initial_velocity*i)*np.cos(angle)
+        y_temp = ((initial_velocity*i)*np.sin(angle))-((0.5*g)*(i**2))
         x1.append(x_temp)
         y1.append(y_temp)
     
@@ -87,6 +89,3 @@ def plot_projectile_motion(initial_velocity,angle):
     plt.xlabel("Horizontal displacement ($m$)")
     plt.ylabel("Height ($m$)")
     plt.show()
-
-
-
